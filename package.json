@@ -4,7 +4,8 @@
     "watch": "rollup -c -w",
     "package": "cd dist && zip -r module.zip *",
     "check": "tsc --noEmit",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "clean": "rm -r dist && rm -r node_modules"
   },
   "devDependencies": {
     "@league-of-foundry-developers/foundry-vtt-types": "^0.8.9-3",
