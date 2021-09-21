@@ -9,9 +9,7 @@ const config = {
     dir: "dist",
     format: "es",
     sourcemap: true,
-    plugins: [
-      terser({ keep_classnames: true, keep_fnames: true }),
-    ],
+    plugins: [terser({ keep_classnames: true, keep_fnames: true })],
   },
   plugins: [
     copy({ targets: [{ src: "public/*", dest: "dist" }] }),
