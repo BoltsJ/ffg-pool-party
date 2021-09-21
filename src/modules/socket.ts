@@ -158,6 +158,7 @@ export function queueMessage(message: Message) {
         }
         break;
       // Immediately send the message and queue the new one
+      case "connect":
       case "listen":
       case "delete":
         sendQueuedMessage();

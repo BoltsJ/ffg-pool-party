@@ -17,7 +17,7 @@ Hooks.once("init", () => {
 });
 
 Hooks.on("ready", () => {
-  socket.emit("module.ffg-pool-party", { kind: "delete", userId: game.userId });
+  queueMessage({ kind: "connect", userId: game.userId! });
 });
 
 Hooks.on("getRollBuilderFFGHeaderButtons", (app, buttons) => {
