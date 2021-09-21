@@ -1,0 +1,16 @@
+<form autocomplete="off">
+  <h2>{{localize "FFGPOOLPARTY.ChooseAPlayer"}}</h2>
+  {{#each players as |player|}}
+    <h3>{{player.name}}</h3>
+    <div class="form-group">
+      <div class="dice-pool" data-player="{{id}}"></div>
+      <button
+        class="choose-roll"
+        name="{{player.id}}"
+        data-player="{{player.id}}"
+      >{{player.description}}</button>
+    </div>
+  {{else}}
+    <p>{{localize "FFGPOOLPARTY.NoActivePools"}}</p>
+  {{/each}}
+</form>

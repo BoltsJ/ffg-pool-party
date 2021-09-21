@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "outDir": "./dist",
+    "module": "es6",
+    "moduleResolution": "node",
+    "types": ["@league-of-foundry-developers/foundry-vtt-types"],
+    "sourceMap": true,
+    "importsNotUsedAsValues": "remove",
+    "inlineSources": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}
