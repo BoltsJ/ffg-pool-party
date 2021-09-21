@@ -7,7 +7,7 @@
     "format": "prettier --write src/"
   },
   "devDependencies": {
-    "@league-of-foundry-developers/foundry-vtt-types": "^0.8.9-2",
+    "@league-of-foundry-developers/foundry-vtt-types": "^0.8.9-3",
     "@rollup/plugin-typescript": "^8.2.5",
     "prettier": "^2.4.1",
     "rollup": "^2.56.3",
