@@ -8,6 +8,7 @@ export class RollSelectorForm extends FormApplication<
     const opts: FormApplication.Options = {
       ...super.defaultOptions,
       title: "FFGPOOLPARTY.ChooseAPlayer",
+      id: "pool-selector",
       template: "modules/ffg-pool-party/templates/roll-selector.hbs",
       width: 500,
     };
