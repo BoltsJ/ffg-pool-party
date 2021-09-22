@@ -9,6 +9,7 @@
   "compatibleCoreVersion": "0.8.9",
   "esmodules": ["./pool-party.js"],
   "styles": [],
+  "system": ["starwarsffg"],
   "socket": "true",
   "languages": [
     {
