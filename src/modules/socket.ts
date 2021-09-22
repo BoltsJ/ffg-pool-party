@@ -48,12 +48,14 @@ export type Message =
   | ConnectMessage;
 
 export async function socketHandler(message: Message): Promise<void> {
+  const seq = ffgMessageSeq.get(message.userId)??-1;
   if (
-    (message.seq ?? 0) <= (ffgMessageSeq.get(message.userId) ?? -1) &&
+    (message.seq ?? 0) <= seq &&
     message.kind !== "connect"
   ) {
     console.warn(
-      `Discarding out of sequece message from user ${message.userId}`
+      `Discarding out of sequece message from user ${message.userId}.
+Expected n > ${seq}, got ${message.seq}.`
     );
     return;
   }
