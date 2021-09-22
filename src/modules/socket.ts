@@ -177,8 +177,8 @@ export function queueMessage(message: Message) {
 }
 
 function sendQueuedMessage() {
-  if (!ffgMessageQueue.sending) return;
-  ffgMessageQueue.message!.seq = ffgMessageQueue.seq++;
+  if (!ffgMessageQueue.sending || !ffgMessageQueue.message) return;
+  ffgMessageQueue.message.seq = ffgMessageQueue.seq++;
   socket.emit("module.ffg-pool-party", ffgMessageQueue.message);
   ffgMessageQueue.message = undefined;
   ffgMessageQueue.sending = false;

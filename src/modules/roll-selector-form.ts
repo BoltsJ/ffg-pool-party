@@ -1,4 +1,5 @@
 import type { RollBuilderFFG } from "../types/rollbuilder";
+import { queueMessage } from "./socket";
 
 export class RollSelectorForm extends FormApplication<
   FormApplication.Options,
@@ -53,7 +54,7 @@ export class RollSelectorForm extends FormApplication<
         m.flavor,
         m.sound
       );
-      socket.emit("module.ffg-pool-party", {
+      queueMessage({
         kind: "listen",
         userId: game.userId!,
         target: userId,
