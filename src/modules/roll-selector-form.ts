@@ -84,5 +84,7 @@ export namespace RollSelectorForm {
 }
 
 export function openSelectorForm() {
-  new RollSelectorForm({}).render(true);
+  const form = new RollSelectorForm({})
+  form.render(true);
+  return form;
 }
