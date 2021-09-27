@@ -3,8 +3,8 @@ import {
   rollBuilderContextHook,
 } from "./modules/roll-builder-hooks";
 import { openSelectorForm } from "./modules/roll-selector-form";
-import { queueMessage } from "./modules/socket/queueMessage";
-import { socketHandler } from "./modules/socket/socketHandler";
+import { queueMessage } from "./modules/socket/queue-message";
+import { socketHandler } from "./modules/socket/socket-handler";
 
 Hooks.once("init", () => {
   socket.on("module.ffg-pool-party", socketHandler);

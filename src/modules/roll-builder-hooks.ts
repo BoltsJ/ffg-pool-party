@@ -1,6 +1,6 @@
 import type { RollBuilderFFG } from "../types/rollbuilder";
 import { openSelectorForm } from "./roll-selector-form";
-import { queueMessage } from "./socket/queueMessage";
+import { queueMessage } from "./socket/queue-message";
 
 export function rollBuilderContextHook(
   ...[app, buttons]: Parameters<

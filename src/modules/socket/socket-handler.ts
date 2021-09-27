@@ -1,4 +1,4 @@
-import { updatePools } from "./updatePools";
+import { updatePools } from "./update-pools";
 import type { RollBuilderFFG } from "../../types/rollbuilder";
 import type {
   ConnectMessage,

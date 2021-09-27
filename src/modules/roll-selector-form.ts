@@ -1,5 +1,5 @@
 import type { RollBuilderFFG } from "../types/rollbuilder";
-import { queueMessage } from "./socket/queueMessage";
+import { queueMessage } from "./socket/queue-message";
 
 export class RollSelectorForm extends FormApplication<
   FormApplication.Options,
