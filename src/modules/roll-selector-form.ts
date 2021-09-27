@@ -1,5 +1,5 @@
 import type { RollBuilderFFG } from "../types/rollbuilder";
-import { queueMessage } from "./socket";
+import { queueMessage } from "./socket/queueMessage";
 
 export class RollSelectorForm extends FormApplication<
   FormApplication.Options,
@@ -59,13 +59,11 @@ export class RollSelectorForm extends FormApplication<
         userId: game.userId!,
         target: userId,
       });
-      setTimeout(() => {
-        const app = Object.values(ui.windows).find(a =>
-          a.hasOwnProperty("dicePool")
-        ) as RollBuilderFFG | undefined;
-        if (!app) return;
-        app.shareUsers = new Set([userId]);
-      }, 50);
+      const app = Object.values(ui.windows).find(a =>
+        a.hasOwnProperty("dicePool")
+      ) as RollBuilderFFG | undefined;
+      if (!app) return;
+      app.shareUsers = new Set([userId]);
     });
   }
 
@@ -84,7 +82,7 @@ export namespace RollSelectorForm {
 }
 
 export function openSelectorForm() {
-  const form = new RollSelectorForm({})
+  const form = new RollSelectorForm({});
   form.render(true);
   return form;
 }
