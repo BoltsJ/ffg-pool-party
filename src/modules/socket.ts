@@ -1,4 +1,5 @@
 import type { RollBuilderFFG } from "../types/rollbuilder";
+import { RollSelectorForm } from "./roll-selector-form";
 
 export interface UpdateMessage {
   kind: "update";
@@ -48,11 +49,8 @@ export type Message =
   | ConnectMessage;
 
 export async function socketHandler(message: Message): Promise<void> {
-  const seq = ffgMessageSeq.get(message.userId)??-1;
-  if (
-    (message.seq ?? 0) <= seq &&
-    message.kind !== "connect"
-  ) {
+  const seq = ffgMessageSeq.get(message.userId) ?? -1;
+  if ((message.seq ?? 0) <= seq && message.kind !== "connect") {
     console.warn(
       `Discarding out of sequece message from user ${message.userId}.
 Expected n > ${seq}, got ${message.seq}.`
@@ -135,17 +133,21 @@ function updatePools(message: Message): void {
   switch (message.kind) {
     case "create":
       ffgDicePools.set(message.userId, message);
-      return;
+      break;
     case "update":
       const roll = ffgDicePools.get(message.userId);
       if (roll?.pool) roll.pool = message.pool;
-      return;
+      break;
     case "delete":
       ffgDicePools.delete(message.userId);
-      return;
+      break;
     case "listen":
-      return;
+      break;
   }
+  // Re-render the selector form if it is open
+  Object.values(ui.windows)
+    .find(a => a instanceof RollSelectorForm)
+    ?.render();
 }
 
 export function queueMessage(message: Message) {
