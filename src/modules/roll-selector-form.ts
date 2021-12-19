@@ -1,4 +1,4 @@
-import type { RollBuilderFFG } from "../types/rollbuilder";
+import { getRollBuilder } from "./get-roll-builder";
 import { queueMessage } from "./socket/queue-message";
 
 export class RollSelectorForm extends FormApplication<
@@ -58,10 +58,8 @@ export class RollSelectorForm extends FormApplication<
         userId: game.userId!,
         target: userId,
       });
-      const app = Object.values(ui.windows).find(a =>
-        a.hasOwnProperty("dicePool")
-      ) as RollBuilderFFG | undefined;
-      if (!app) return;
+      const app = await getRollBuilder(10);
+      if (!app) throw Error("Couldn't find RollBuilderFFG application");
       app.shareUsers = new Set([userId]);
     });
   }

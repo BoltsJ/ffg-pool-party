@@ -8,6 +8,7 @@ import type {
   Message,
   UpdateMessage,
 } from ".";
+import { getRollBuilder } from "../get-roll-builder";
 
 export async function socketHandler(message: Message): Promise<void> {
   const seq = ffgMessageSeq.get(message.userId) ?? -1;
@@ -37,6 +38,7 @@ async function receiveNewPool(message: CreateMessage): Promise<void> {
   const user = game.users!.get(message.userId);
   if (!user) throw Error("Invalid user");
   if (!user?.isGM) return;
+  await (await getRollBuilder())?.close();
   await game.ffg.DiceHelpers.displayRollDialog(
     message.data,
     new DicePoolFFG(message.pool),
@@ -46,25 +48,15 @@ async function receiveNewPool(message: CreateMessage): Promise<void> {
     message.flavor,
     message.sound
   );
-  let app: RollBuilderFFG | undefined = undefined;
-  let max_tries = 100;
-  while (!app && max_tries != 0) {
-    await new Promise(resolve => setTimeout(resolve, 50)); // Sleep and try again
-    max_tries -= 1;
-    app = Object.values(ui.windows).find(a => a.hasOwnProperty("dicePool")) as
-      | RollBuilderFFG
-      | undefined;
-  }
+  const app = await getRollBuilder(10);
   if (!app) throw Error("Couldn't find roll builder window");
   app.shareUsers = new Set(message.members);
 }
 
-function receivePoolUpdate(message: UpdateMessage): void {
+async function receivePoolUpdate(message: UpdateMessage): Promise<void> {
   const user = game.users!.get(message.userId);
   if (!user) throw Error("Invalid user");
-  const app = Object.values(ui.windows).find(a =>
-    a.hasOwnProperty("dicePool")
-  ) as RollBuilderFFG | undefined;
+  const app = await getRollBuilder();
   if (!app || !app.shareUsers || !app.shareUsers.has(message.userId)) return;
   console.log("Updating the pool");
   app.dicePool = new DicePoolFFG(message.pool);
@@ -83,14 +75,12 @@ function receivePoolDelete(message: DeleteMessage | ConnectMessage): void {
     app.shareUsers.delete(message.userId);
 }
 
-function receiveListen(message: ListenMessage): void {
+async function receiveListen(message: ListenMessage): Promise<void> {
   const user = game.users!.get(message.userId);
   if (!user) throw Error("Invalid user");
   if (message.target !== game.userId) return;
-  const app = Object.values(ui.windows).find(a =>
-    a.hasOwnProperty("dicePool")
-  ) as RollBuilderFFG | undefined;
-  if (!app) return;
+  const app = await getRollBuilder(10);
+  if (!app) throw Error("Couldn't find roll builder window");
   if (!app.shareUsers) app.shareUsers = new Set();
   app.shareUsers.add(message.userId);
 }
