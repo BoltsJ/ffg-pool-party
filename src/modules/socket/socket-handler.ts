@@ -46,10 +46,16 @@ async function receiveNewPool(message: CreateMessage): Promise<void> {
     message.flavor,
     message.sound
   );
-  const app = Object.values(ui.windows).find(a =>
-    a.hasOwnProperty("dicePool")
-  ) as RollBuilderFFG | undefined;
-  if (!app) return;
+  let app: RollBuilderFFG | undefined = undefined;
+  let max_tries = 100;
+  while (!app && max_tries != 0) {
+    await new Promise(resolve => setTimeout(resolve, 50)); // Sleep and try again
+    max_tries -= 1;
+    app = Object.values(ui.windows).find(a => a.hasOwnProperty("dicePool")) as
+      | RollBuilderFFG
+      | undefined;
+  }
+  if (!app) throw Error("Couldn't find roll builder window");
   app.shareUsers = new Set(message.members);
 }
 
@@ -60,6 +66,7 @@ function receivePoolUpdate(message: UpdateMessage): void {
     a.hasOwnProperty("dicePool")
   ) as RollBuilderFFG | undefined;
   if (!app || !app.shareUsers || !app.shareUsers.has(message.userId)) return;
+  console.log("Updating the pool");
   app.dicePool = new DicePoolFFG(message.pool);
   app._updatePreview(app.element);
   app._initializeInputs(app.element);

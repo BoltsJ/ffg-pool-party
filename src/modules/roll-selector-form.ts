@@ -42,9 +42,8 @@ export class RollSelectorForm extends FormApplication<
 
     html.find("button.choose-roll").on("click", async ev => {
       const userId: string = $(ev.currentTarget).data("player");
-      console.log(userId);
       const m = ffgDicePools.get(userId);
-      if (!m) return;
+      if (!m) throw Error("Invaild pool");
       await game.ffg.DiceHelpers.displayRollDialog(
         m.data,
         new DicePoolFFG(m.pool),
