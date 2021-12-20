@@ -38,7 +38,7 @@ async function receiveNewPool(message: CreateMessage): Promise<void> {
   const user = game.users!.get(message.userId);
   if (!user) throw Error("Invalid user");
   if (!user?.isGM) return;
-  await (await getRollBuilder())?.close();
+  //await (await getRollBuilder())?.close();
   await game.ffg.DiceHelpers.displayRollDialog(
     message.data,
     new DicePoolFFG(message.pool),
@@ -48,6 +48,7 @@ async function receiveNewPool(message: CreateMessage): Promise<void> {
     message.flavor,
     message.sound
   );
+  await new Promise(resolve => setTimeout(resolve, 50));
   const app = await getRollBuilder(10);
   if (!app) throw Error("Couldn't find roll builder window");
   app.shareUsers = new Set(message.members);
@@ -58,7 +59,6 @@ async function receivePoolUpdate(message: UpdateMessage): Promise<void> {
   if (!user) throw Error("Invalid user");
   const app = await getRollBuilder();
   if (!app || !app.shareUsers || !app.shareUsers.has(message.userId)) return;
-  console.log("Updating the pool");
   app.dicePool = new DicePoolFFG(message.pool);
   app._updatePreview(app.element);
   app._initializeInputs(app.element);
