@@ -5,7 +5,6 @@ import type { Message, CreateMessage } from "./modules/socket";
 declare global {
   interface LenientGlobalVariableTypes {
     game: never;
-    socket: never;
   }
 
   interface Game {

@@ -7,7 +7,7 @@ import { queueMessage } from "./modules/socket/queue-message";
 import { socketHandler } from "./modules/socket/socket-handler";
 
 Hooks.once("init", () => {
-  socket.on("module.ffg-pool-party", socketHandler);
+  game.socket.on("module.ffg-pool-party", socketHandler);
   window.ffgDicePools = new Map();
   window.ffgMessageQueue = {
     message: undefined,
