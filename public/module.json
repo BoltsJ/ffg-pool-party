@@ -1,15 +1,19 @@
 {
-  "name": "ffg-pool-party",
+  "id": "ffg-pool-party",
   "title": "Pool Party for FFG Star Wars",
   "description": "Real time interactive dice pool dialog for FFG Star Wars",
   "author": "Bolts",
   "type": "module",
   "version": "1-dev",
-  "minimumCoreVersion": "0.8.6",
-  "compatibleCoreVersion": "0.8.9",
+  "compatibility": {
+    "minumum": "10",
+    "verified": "10"
+  },
   "esmodules": ["./pool-party.js"],
   "styles": [],
-  "system": ["starwarsffg"],
+  "relationships": {
+    "systems": [{ "id": "starwarsffg", "type": "system" }]
+  },
   "socket": "true",
   "languages": [
     {
@@ -19,6 +23,6 @@
     }
   ],
   "url": "https://github.com/BoltsJ/ffg-pool-party.git",
-  "manifest": "",
+  "manifest": "https://github.com/BoltsJ/ffg-pool-party/releases/latest/download/module.json",
   "download": ""
 }
