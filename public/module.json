@@ -7,9 +7,9 @@
   "version": "1-dev",
   "compatibility": {
     "minumum": "10",
-    "verified": "10"
+    "verified": "11"
   },
-  "esmodules": ["./pool-party.js"],
+  "esmodules": ["pool-party.js"],
   "styles": [],
   "relationships": {
     "systems": [{ "id": "starwarsffg", "type": "system" }]

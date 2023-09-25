@@ -1,7 +1,7 @@
 import { updatePools } from "./update-pools.mjs";
-import { getRollBuilder } from "../get-roll-builder";
+import { getRollBuilder } from "../get-roll-builder.mjs";
 
-export async function socketHandler(message){
+export async function socketHandler(message) {
   const seq = ffgMessageSeq.get(message.userId) ?? -1;
   if ((message.seq ?? 0) <= seq && message.kind !== "connect") {
     console.warn(
@@ -25,7 +25,7 @@ Expected n > ${seq}, got ${message.seq}.`
   }
 }
 
-async function receiveNewPool(message){
+async function receiveNewPool(message) {
   const user = game.users.get(message.userId);
   if (!user) throw Error("Invalid user");
   if (!user?.isGM) return;
@@ -58,9 +58,7 @@ async function receivePoolUpdate(message) {
 function receivePoolDelete(message) {
   const user = game.users.get(message.userId);
   if (!user) throw Error("Invalid user");
-  const app = Object.values(ui.windows).find(a =>
-    a.hasOwnProperty("dicePool")
-  )
+  const app = Object.values(ui.windows).find(a => a.hasOwnProperty("dicePool"));
   if (!app) return;
   if (app.shareUsers?.has(message.userId))
     app.shareUsers.delete(message.userId);

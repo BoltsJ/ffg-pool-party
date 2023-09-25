@@ -1,4 +1,4 @@
-import { getRollBuilder } from "./get-roll-builder";
+import { getRollBuilder } from "./get-roll-builder.mjs";
 import { queueMessage } from "./socket/queue-message.mjs";
 
 export class RollSelectorForm extends FormApplication {

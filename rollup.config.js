@@ -1,6 +1,5 @@
 import { terser } from "rollup-plugin-terser";
 import copy from "rollup-plugin-copy";
-import typescript from "@rollup/plugin-typescript";
 
 /** @type {import('rollup').RollupOptions} */
 const config = {
@@ -11,9 +10,6 @@ const config = {
     sourcemap: true,
     plugins: [terser({ keep_classnames: true, keep_fnames: true })],
   },
-  plugins: [
-    copy({ targets: [{ src: "public/*", dest: "dist" }] }),
-    typescript(),
-  ],
+  plugins: [copy({ targets: [{ src: "public/*", dest: "dist" }] })],
 };
 export default config;
