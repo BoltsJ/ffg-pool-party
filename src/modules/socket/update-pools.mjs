@@ -1,7 +1,6 @@
-import { RollSelectorForm } from "../roll-selector-form";
-import type { Message } from ".";
+import { RollSelectorForm } from "../roll-selector-form.mjs";
 
-export function updatePools(message: Message): void {
+export function updatePools(message) {
   switch (message.kind) {
     case "create":
       ffgDicePools.set(message.userId, message);

@@ -4,7 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 
 /** @type {import('rollup').RollupOptions} */
 const config = {
-  input: "src/pool-party.ts",
+  input: "src/pool-party.mjs",
   output: {
     dir: "dist",
     format: "es",

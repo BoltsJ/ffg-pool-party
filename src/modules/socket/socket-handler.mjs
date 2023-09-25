@@ -1,16 +1,7 @@
-import { updatePools } from "./update-pools";
-import type { RollBuilderFFG } from "../../types/rollbuilder";
-import type {
-  ConnectMessage,
-  CreateMessage,
-  DeleteMessage,
-  ListenMessage,
-  Message,
-  UpdateMessage,
-} from ".";
+import { updatePools } from "./update-pools.mjs";
 import { getRollBuilder } from "../get-roll-builder";
 
-export async function socketHandler(message: Message): Promise<void> {
+export async function socketHandler(message){
   const seq = ffgMessageSeq.get(message.userId) ?? -1;
   if ((message.seq ?? 0) <= seq && message.kind !== "connect") {
     console.warn(
@@ -34,8 +25,8 @@ Expected n > ${seq}, got ${message.seq}.`
   }
 }
 
-async function receiveNewPool(message: CreateMessage): Promise<void> {
-  const user = game.users!.get(message.userId);
+async function receiveNewPool(message){
+  const user = game.users.get(message.userId);
   if (!user) throw Error("Invalid user");
   if (!user?.isGM) return;
   //await (await getRollBuilder())?.close();
@@ -54,8 +45,8 @@ async function receiveNewPool(message: CreateMessage): Promise<void> {
   app.shareUsers = new Set(message.members);
 }
 
-async function receivePoolUpdate(message: UpdateMessage): Promise<void> {
-  const user = game.users!.get(message.userId);
+async function receivePoolUpdate(message) {
+  const user = game.users.get(message.userId);
   if (!user) throw Error("Invalid user");
   const app = await getRollBuilder();
   if (!app || !app.shareUsers || !app.shareUsers.has(message.userId)) return;
@@ -64,19 +55,19 @@ async function receivePoolUpdate(message: UpdateMessage): Promise<void> {
   app._initializeInputs(app.element);
 }
 
-function receivePoolDelete(message: DeleteMessage | ConnectMessage): void {
-  const user = game.users!.get(message.userId);
+function receivePoolDelete(message) {
+  const user = game.users.get(message.userId);
   if (!user) throw Error("Invalid user");
   const app = Object.values(ui.windows).find(a =>
     a.hasOwnProperty("dicePool")
-  ) as RollBuilderFFG | undefined;
+  )
   if (!app) return;
   if (app.shareUsers?.has(message.userId))
     app.shareUsers.delete(message.userId);
 }
 
-async function receiveListen(message: ListenMessage): Promise<void> {
-  const user = game.users!.get(message.userId);
+async function receiveListen(message) {
+  const user = game.users.get(message.userId);
   if (!user) throw Error("Invalid user");
   if (message.target !== game.userId) return;
   const app = await getRollBuilder(10);

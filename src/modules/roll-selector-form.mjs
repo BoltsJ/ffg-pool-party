@@ -1,12 +1,10 @@
 import { getRollBuilder } from "./get-roll-builder";
-import { queueMessage } from "./socket/queue-message";
+import { queueMessage } from "./socket/queue-message.mjs";
 
-export class RollSelectorForm extends FormApplication<
-  FormApplication.Options,
-  RollSelectorForm.Data
-> {
-  static override get defaultOptions(): FormApplication.Options {
-    const opts: FormApplication.Options = {
+export class RollSelectorForm extends FormApplication {
+  /** @override */
+  static get defaultOptions() {
+    const opts = {
       ...super.defaultOptions,
       title: "FFGPOOLPARTY.ChooseAPlayer",
       id: "pool-selector",
@@ -16,8 +14,9 @@ export class RollSelectorForm extends FormApplication<
     return opts;
   }
 
-  override getData() {
-    const data: Partial<RollSelectorForm.Data> = {};
+  /** @override */
+  getData() {
+    const data = {};
     data.players = [...ffgDicePools.values()].map(m => {
       return {
         id: m.userId,
@@ -26,22 +25,20 @@ export class RollSelectorForm extends FormApplication<
         description: m.description,
       };
     });
-    return data as RollSelectorForm.Data;
+    return data;
   }
 
-  override activateListeners(
-    ...[html]: Parameters<FormApplication["activateListeners"]>
-  ) {
+  /** @override */ activateListeners(...[html]) {
     super.activateListeners(html);
 
     html.find(".dice-pool").each(function () {
-      const id: string = $(this).data("player");
+      const id = $(this).data("player");
       const pool = new DicePoolFFG(ffgDicePools.get(id)?.pool);
       pool.renderPreview(this);
     });
 
     html.find("button.choose-roll").on("click", async ev => {
-      const userId: string = $(ev.currentTarget).data("player");
+      const userId = $(ev.currentTarget).data("player");
       const m = ffgDicePools.get(userId);
       if (!m) throw Error("Invaild pool");
       await game.ffg.DiceHelpers.displayRollDialog(
@@ -55,7 +52,7 @@ export class RollSelectorForm extends FormApplication<
       );
       queueMessage({
         kind: "listen",
-        userId: game.userId!,
+        userId: game.userId,
         target: userId,
       });
       const app = await getRollBuilder(10);
@@ -64,18 +61,8 @@ export class RollSelectorForm extends FormApplication<
     });
   }
 
-  override async _updateObject() {}
-}
-
-export namespace RollSelectorForm {
-  export interface Data {
-    players: {
-      id: string;
-      name: string;
-      pool: HTMLElement;
-      description: string;
-    }[];
-  }
+  /** @override */
+  async _updateObject() {}
 }
 
 export function openSelectorForm() {

@@ -1,6 +1,4 @@
-import { Message } from ".";
-
-export function queueMessage(message: Message) {
+export function queueMessage(message) {
   if (ffgMessageQueue.message) {
     switch (ffgMessageQueue.message.kind) {
       // If a create is queued, change the pool rather than replace it
