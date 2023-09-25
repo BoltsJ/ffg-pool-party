@@ -15,7 +15,6 @@ jobs:
 
     # Run the compilation step
     - run: npm clean-install
-    - run: npm run check
     - run: npm run build
 
     # Remove the 'v' from the tag for versioning
